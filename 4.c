@@ -1,13 +1,21 @@
 #include <stdio.h>
 
 int main() {
-    int input = 50000; // Works fine if input is 5, breaks if input is large
+    double balance = 500.00;
+    double spend = 100.00;
 
-    printf("Processing Input...\n");
-    printf("Step 1 Complete.\n");
-    
-    // BUG: 50000 * 50000 overflows a standard 32-bit signed integer
-    printf("Final Result: %d\n", input * input); 
-    
+    printf("Starting Balance: $%.2f\n", balance);
+
+    // BUG: Accidentally resetting spend to 0 via assignment '=' inside the check
+    // Instead of evaluating a condition, it always passes as true/false incorrectly
+    if (spend = 0) { 
+        printf("Transaction: Declined\n");
+        printf("Ending Balance: $%.2f\n", balance);
+    } else {
+        double cashback = spend * 0.05;
+        balance = (balance - spend) + cashback;
+        printf("Transaction: Approved (Reward: $%.2f)\n", cashback);
+        printf("Ending Balance: $%.2f\n", balance);
+    }
     return 0;
 }
