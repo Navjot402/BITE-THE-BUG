@@ -1,13 +1,19 @@
 #include <stdio.h>
 
 int main() {
-    int *ptr; // BUG: Pointer is uninitialized (points to random memory location)
+    double balance = 500.00;
+    double spend = 100.00;
+    double cashback; // Declared but not assigned a default value
 
-    printf("Line 1: System Init\n");
-    printf("Line 2: Loading Data\n");
-    
-    *ptr = 100; // BUG: Dereferencing wild pointer (Segmentation Fault)
-    printf("Line 3: Value is %d\n", *ptr);
-    
+    printf("Starting Balance: $%.2f\n", balance);
+
+    if (spend <= balance) {
+        double cashback = spend * 0.05; // BUG: Declares a NEW local variable hiding the outer one
+        balance = (balance - spend) + cashback;
+    }
+
+    // BUG: Accesses the outer 'cashback' variable which was never assigned a value here
+    printf("Transaction: Approved (Reward: $%.2f)\n", cashback); 
+    printf("Ending Balance: $%.2f\n", balance);
     return 0;
 }
