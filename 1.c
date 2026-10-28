@@ -1,12 +1,17 @@
 #include <stdio.h>
 
 int main() {
-    int arr[3] = {10, 20, 30};
+    double balance = 500.00;
+    double spend = 600.00; // Triggers bug (spend > balance)
+
+    printf("Starting Balance: $%.2f\n", balance);
     
-    // BUG: Loop runs 4 times (0, 1, 2, 3) instead of 3 due to '<='
-    // It will print 3 lines, but the 4th line is hidden or crashes the system.
-    for (int i = 0; i <= 3; i++) {
-        printf("Element %d: %d\n", i + 1, arr[i]);
-    }
+    // BUG: Missing the conditional check entirely. 
+    // Participant thought they only needed to write the success path.
+    double cashback = spend * 0.05;
+    balance = (balance - spend) + cashback;
+
+    printf("Transaction: Approved (Reward: $%.2f)\n", cashback);
+    printf("Ending Balance: $%.2f\n", balance); // Prints negative money!
     return 0;
 }
